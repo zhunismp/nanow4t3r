@@ -20,7 +20,23 @@ func GetNewGormDBInstance(DBConfig config.DBConfig) *gorm.DB {
 		panic("failed to migrate database")
 	}
 
+	configureDBConnection(db)
+
 	return db
+}
+
+func configureDBConnection(gorm *gorm.DB) {
+	sqlDB, err := gorm.DB()
+	if err != nil {
+		fmt.Println("Error getting *sql.DB object:", err)
+		return
+	}
+
+	// config connection pool
+	sqlDB.SetMaxOpenConns(100)  // Maximum number of open connections
+	sqlDB.SetMaxIdleConns(10)   // Maximum number of idle connections
+	sqlDB.SetConnMaxLifetime(0) // Maximum amount of time a connection can be reused (0 means no limit)
+
 }
 
 func buildConnectionString(DBConfig config.DBConfig) string {
