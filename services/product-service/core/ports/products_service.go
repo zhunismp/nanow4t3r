@@ -6,8 +6,8 @@ import (
 
 type ProductsService interface {
 	QueryAllProducts(activeOnly bool) ([]domain.Product, error)
-	QueryProductByID(id string) (domain.Product, error)
+	QueryProductByID(id uint32) (domain.Product, error)
 	CreateProduct(product domain.Product) error
 	UpdateProduct(product domain.Product) error
-	DeleteProductByID(id string) error
+	DeleteProductByID(id uint32) error
 }

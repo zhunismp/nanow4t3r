@@ -1,21 +1,23 @@
 package handlers
 
 import (
+	"strconv"
+
 	"github.com/gin-gonic/gin"
 	"github.com/zhunismp/nanow4t3r/services/product/core/ports"
 )
 
-type ProductHttpServer struct {
+type ProductHttpHandler struct {
 	productsService ports.ProductsService
 }
 
-func NewProductHttpServer(productsService ports.ProductsService) *ProductHttpServer {
-	return &ProductHttpServer{
+func NewProductHttpHandler(productsService ports.ProductsService) *ProductHttpHandler {
+	return &ProductHttpHandler{
 		productsService: productsService,
 	}
 }
 
-func (s *ProductHttpServer) GetAllProducts(c *gin.Context) {
+func (s *ProductHttpHandler) GetAllProducts(c *gin.Context) {
 	activeOnly := c.Query("active_only") == "true"
 	products, err := s.productsService.QueryAllProducts(activeOnly)
 	if err != nil {
@@ -26,9 +28,15 @@ func (s *ProductHttpServer) GetAllProducts(c *gin.Context) {
 	c.JSON(200, products)
 }
 
-func (s *ProductHttpServer) GetProductByID(c *gin.Context) {
-	id := c.Param("id")
-	product, err := s.productsService.QueryProductByID(id)
+func (s *ProductHttpHandler) GetProductByID(c *gin.Context) {
+	idOpt := c.Param("id")
+	id, err := strconv.ParseUint(idOpt, 10, 32)
+    if err != nil {
+        c.JSON(404, gin.H{"error": "Product not found"})
+		return
+    }
+
+	product, err := s.productsService.QueryProductByID(uint32(id))
 	if err != nil {
 		c.JSON(404, gin.H{"error": "Product not found"})
 		return
