@@ -1,0 +1,62 @@
+# Binaries
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+
+# Go workspace/build files
+*.log
+*.tmp
+*.swp
+*.prof
+
+# Go module cache and generated binaries
+bin/
+build/
+dist/
+coverage.out
+vendor/
+*.local
+
+# Compiled Go files
+**/go.sum
+**/go.work.sum
+
+# Dependency directories (optional if you commit vendor)
+**/vendor/
+
+# IDE/editor folders
+.vscode/
+.idea/
+*.code-workspace
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Test results
+*.coverprofile
+*.testresult
+*.testlog
+
+# Env/config files
+.env
+.env.*
+*.key
+*.pem
+
+# Node tools if you have frontend/tools in repo
+node_modules/
+npm-debug.log
+yarn.lock
+pnpm-lock.yaml
+package-lock.json
+
+# JetBrains Goland-specific
+*.iml
+*.ipr
+*.iws
+out/
