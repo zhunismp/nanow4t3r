@@ -48,7 +48,7 @@ func (s *ProductHttpHandler) GetProductByID(c *gin.Context) {
 func (s *ProductHttpHandler) CreateProduct(c *gin.Context) {
 	var createProductCommand ports.CreateProductCommand
 	if err := c.ShouldBindJSON(&createProductCommand); err != nil {
-		c.JSON(400, gin.H{"error": err.Error()})
+		c.Error(err).SetType(gin.ErrorTypeBind)
 		return
 	}
 
@@ -63,7 +63,7 @@ func (s *ProductHttpHandler) CreateProduct(c *gin.Context) {
 func (s *ProductHttpHandler) UpdateProduct(c *gin.Context) {
 	var updateProductCommand ports.UpdateProductCommand
 	if err := c.ShouldBindJSON(&updateProductCommand); err != nil {
-		c.JSON(400, gin.H{"error": err.Error()})
+		c.Error(err).SetType(gin.ErrorTypeBind)
 		return
 	}
 
