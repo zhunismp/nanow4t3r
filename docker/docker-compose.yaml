@@ -18,3 +18,16 @@ services:
       - "5050:80"
     depends_on:
       - product-db
+    
+  product-api:
+    build:
+      context: ../services/product-service
+      dockerfile: ../../docker/product.dockerfile
+    container_name: product_api
+    restart: on-failure
+    # env_file:
+    #   - ../.env
+    ports:
+      - "8080:8080"
+    depends_on:
+      - product-db

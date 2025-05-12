@@ -1,6 +1,6 @@
 module github.com/zhunismp/nanow4t3r/services/product
 
-go 1.23.6
+go 1.23
 
 require (
 	github.com/bytedance/sonic v1.13.2 // indirect
