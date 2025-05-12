@@ -3,14 +3,16 @@ services:
     image: postgres
     container_name: postgres_container
     restart: on-failure
-    env_file:
-      - ../.env
+    environment:
+      POSTGRES_USER: ${PRODUCT_DB_USER}
+      POSTGRES_PASSWORD: ${PRODUCT_DB_PASSWORD}
+      POSTGRES_DB: ${PRODUCT_DB_NAME}
   pgadmin:
     image: dpage/pgadmin4
     container_name: pgadmin
     restart: always
     env_file:
-      - ../.env
+      - .env
     ports:
       - "5050:80"
     depends_on:
@@ -22,8 +24,8 @@ services:
       dockerfile: ../../docker/product.dockerfile
     container_name: product_api
     restart: on-failure
-    # env_file:
-    #   - ../.env
+    env_file:
+      - .env
     ports:
       - "8080:8080"
     depends_on:

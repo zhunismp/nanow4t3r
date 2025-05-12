@@ -43,7 +43,7 @@ Thumbs.db
 *.testlog
 
 # Env/config files
-.env
+*.env
 *.key
 *.pem
 
