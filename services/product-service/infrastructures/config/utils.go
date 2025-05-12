@@ -9,7 +9,7 @@ func LoadConfig() Config {
 	dbConfig := DBConfig{
 		HOST:     "localhost",
 		PORT:     "5432",
-		USERNAME: "postgres",
+		USERNAME: "root",
 		PASSWORD: "password",
 		NAME:     "product_db",
 	}
