@@ -4,6 +4,7 @@ import (
 	"strconv"
 
 	"github.com/gin-gonic/gin"
+	"github.com/zhunismp/nanow4t3r/services/product/core/errors"
 	"github.com/zhunismp/nanow4t3r/services/product/core/ports"
 )
 
@@ -21,7 +22,7 @@ func (s *ProductHttpHandler) GetAllProducts(c *gin.Context) {
 	activeOnly := c.Query("active_only") == "true"
 	products, err := s.productsService.QueryAllProducts(activeOnly)
 	if err != nil {
-		c.JSON(500, gin.H{"error": "Internal Server Error"})
+		handleServiceError(c, err)
 		return
 	}
 
@@ -38,7 +39,7 @@ func (s *ProductHttpHandler) GetProductByID(c *gin.Context) {
 
 	product, err := s.productsService.QueryProductByID(uint32(id))
 	if err != nil {
-		c.JSON(404, gin.H{"error": "Product not found"})
+		handleServiceError(c, err)
 		return
 	}
 
@@ -53,7 +54,7 @@ func (s *ProductHttpHandler) CreateProduct(c *gin.Context) {
 	}
 
 	if err := s.productsService.CreateProduct(createProductCommand); err != nil {
-		c.JSON(500, gin.H{"error": "Internal Server Error"})
+		handleServiceError(c, err)
 		return
 	}
 
@@ -68,9 +69,18 @@ func (s *ProductHttpHandler) UpdateProduct(c *gin.Context) {
 	}
 
 	if err := s.productsService.UpdateProduct(updateProductCommand); err != nil {
-		c.JSON(500, gin.H{"error": err.Error()})
+		handleServiceError(c, err)
 		return
 	}
 
 	c.JSON(200, gin.H{"message": "Product updated successfully"})
+}
+
+func handleServiceError(c *gin.Context, err error) {
+	if appErr, ok := err.(*errors.AppError); ok {
+		c.Set(errors.AppErrorKey, appErr)
+		return
+	}
+
+	c.Error(err)
 }

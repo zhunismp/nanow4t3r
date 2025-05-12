@@ -4,6 +4,7 @@ import (
 	"time"
 
 	"github.com/zhunismp/nanow4t3r/services/product/core/domain"
+	"github.com/zhunismp/nanow4t3r/services/product/core/errors"
 	"github.com/zhunismp/nanow4t3r/services/product/core/helpers"
 	"github.com/zhunismp/nanow4t3r/services/product/core/ports"
 )
@@ -21,7 +22,7 @@ func NewProductsServiceImpl(productsRepository ports.ProductsRepository) *Produc
 func (s *ProductsServiceImpl) QueryAllProducts(activeOnly bool) ([]domain.Product, error) {
 	products, err := s.productsRepository.GetAllProducts(activeOnly)
 	if err != nil {
-		return nil, err
+		return nil, errors.New(errors.Internal, "Failed to get all products", err)
 	}
 	return products, nil
 }
@@ -29,7 +30,7 @@ func (s *ProductsServiceImpl) QueryAllProducts(activeOnly bool) ([]domain.Produc
 func (s *ProductsServiceImpl) QueryProductByID(id uint32) (domain.Product, error) {
 	product, err := s.productsRepository.GetProductByID(id)
 	if err != nil {
-		return domain.Product{}, err
+		return domain.Product{}, errors.New(errors.NotFound, "Product not found", err)
 	}
 	return product, nil
 }
@@ -37,7 +38,7 @@ func (s *ProductsServiceImpl) QueryProductByID(id uint32) (domain.Product, error
 func (s *ProductsServiceImpl) CreateProduct(createProductCommand ports.CreateProductCommand) error {
 
 	if err := helpers.ValidateCreateProductCommand(createProductCommand); err != nil {
-		return err
+		return errors.New(errors.Validation, "Invalid create product request", err)
 	}
 
 	product := domain.Product{
@@ -48,7 +49,7 @@ func (s *ProductsServiceImpl) CreateProduct(createProductCommand ports.CreatePro
 	}
 
 	if err := s.productsRepository.CreateProduct(product); err != nil {
-		return err
+		return errors.New(errors.Internal, "Failed to create product", err)
 	}
 
 	return nil
@@ -57,12 +58,12 @@ func (s *ProductsServiceImpl) CreateProduct(createProductCommand ports.CreatePro
 func (s *ProductsServiceImpl) UpdateProduct(updateProductCommand ports.UpdateProductCommand) error {
 
 	if err := helpers.ValidateUpdateProductCommand(updateProductCommand); err != nil {
-		return err
+		return errors.New(errors.Validation, "Invalid update product request", err)
 	}
 
 	product, err := s.productsRepository.GetProductByID(uint32(updateProductCommand.ID))
 	if err != nil {
-		return err
+		return errors.New(errors.NotFound, "Product not found", err)
 	}
 
 	updatedProduct := domain.Product{
@@ -76,7 +77,7 @@ func (s *ProductsServiceImpl) UpdateProduct(updateProductCommand ports.UpdatePro
 	}
 
 	if err := s.productsRepository.UpdateProduct(updatedProduct); err != nil {
-		return err
+		return errors.New(errors.Internal, "Failed to update product", err)
 	}
 
 	return nil
@@ -85,7 +86,7 @@ func (s *ProductsServiceImpl) UpdateProduct(updateProductCommand ports.UpdatePro
 func (s *ProductsServiceImpl) DeleteProductByID(id uint32) error {
 	err := s.productsRepository.DeleteProductByID(id)
 	if err != nil {
-		return err
+		return errors.New(errors.NotFound, "Product not found", err)
 	}
 	return nil
 }

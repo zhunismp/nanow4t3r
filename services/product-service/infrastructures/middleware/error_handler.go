@@ -6,11 +6,10 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
+	"github.com/zhunismp/nanow4t3r/services/product/core/errors"
 )
 
-var validate = validator.New()
-
-func ValidationErrorToText(e validator.FieldError) string {
+func validationErrorToText(e validator.FieldError) string {
 	switch e.Tag() {
 	case "required":
 		return fmt.Sprintf("%s is required", e.Field())
@@ -27,10 +26,32 @@ func ValidationErrorToText(e validator.FieldError) string {
 	}
 }
 
+func statusFromAppError(t errors.ErrorType) int {
+	switch t {
+	case errors.Validation:
+		return http.StatusBadRequest
+	case errors.NotFound:
+		return http.StatusNotFound
+	case errors.Conflict:
+		return http.StatusConflict
+	default:
+		return http.StatusInternalServerError
+	}
+}
+
 func ErrorHandler() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		c.Next()
 
+		// Handle application errors
+		if v, exists := c.Get(errors.AppErrorKey); exists {
+			if appErr, ok := v.(*errors.AppError); ok {
+				c.JSON(statusFromAppError(appErr.Type), gin.H{"error": appErr.Message})
+				return
+			}
+		}
+
+		// Handle Gin errors
 		if len(c.Errors) > 0 {
 			for _, e := range c.Errors {
 				switch e.Type {
@@ -38,7 +59,7 @@ func ErrorHandler() gin.HandlerFunc {
 					if verrs, ok := e.Err.(validator.ValidationErrors); ok {
 						errMap := make(map[string]string)
 						for _, fe := range verrs {
-							errMap[fe.Field()] = ValidationErrorToText(fe)
+							errMap[fe.Field()] = validationErrorToText(fe)
 						}
 						c.JSON(http.StatusBadRequest, gin.H{"errors": errMap})
 						return
