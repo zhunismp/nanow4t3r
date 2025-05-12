@@ -15,6 +15,7 @@ import (
 	"github.com/zhunismp/nanow4t3r/services/product/core/services"
 	"github.com/zhunismp/nanow4t3r/services/product/infrastructures/config"
 	"github.com/zhunismp/nanow4t3r/services/product/infrastructures/db"
+	"github.com/zhunismp/nanow4t3r/services/product/infrastructures/middleware"
 )
 
 func Start() {
@@ -27,6 +28,7 @@ func Start() {
 	productHttpHandler := handlers.NewProductHttpHandler(productService)
 
 	app := gin.Default()
+	app.Use(middleware.ErrorHandler())
 	route(app, productHttpHandler)
 
 	runWithGracefulShutdown(app, cfg.APP_CONFIG.PORT)
