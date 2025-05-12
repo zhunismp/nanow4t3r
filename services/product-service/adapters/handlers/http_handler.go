@@ -4,6 +4,7 @@ import (
 	"strconv"
 
 	"github.com/gin-gonic/gin"
+	"github.com/zhunismp/nanow4t3r/services/product/adapters/handlers/dtos"
 	"github.com/zhunismp/nanow4t3r/services/product/core/ports"
 )
 
@@ -31,10 +32,10 @@ func (s *ProductHttpHandler) GetAllProducts(c *gin.Context) {
 func (s *ProductHttpHandler) GetProductByID(c *gin.Context) {
 	idOpt := c.Param("id")
 	id, err := strconv.ParseUint(idOpt, 10, 32)
-    if err != nil {
-        c.JSON(404, gin.H{"error": "Product not found"})
+	if err != nil {
+		c.JSON(404, gin.H{"error": "Product not found"})
 		return
-    }
+	}
 
 	product, err := s.productsService.QueryProductByID(uint32(id))
 	if err != nil {
@@ -43,4 +44,26 @@ func (s *ProductHttpHandler) GetProductByID(c *gin.Context) {
 	}
 
 	c.JSON(200, product)
+}
+
+func (s *ProductHttpHandler) CreateProduct(c *gin.Context) {
+	var createProductRequest dtos.CreateProductRequest
+	if err := c.ShouldBindJSON(&createProductRequest); err != nil {
+		c.JSON(400, gin.H{"error": "Invalid request"})
+		return
+	}
+
+	product, err := dtos.MapCreateProductRequestToProduct(createProductRequest)
+	if err != nil {
+		c.JSON(400, gin.H{"error": err.Error()})
+		return
+	}
+
+	err = s.productsService.CreateProduct(product)
+	if err != nil {
+		c.JSON(500, gin.H{"error": "Internal Server Error"})
+		return
+	}
+
+	c.JSON(201, gin.H{"message": "Product created successfully"})
 }

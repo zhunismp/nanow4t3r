@@ -70,4 +70,5 @@ func route(app *gin.Engine, productHttpHandler *handlers.ProductHttpHandler) {
 	// Product endpoints
 	app.GET("/products", productHttpHandler.GetAllProducts)
 	app.GET("/products/:id", productHttpHandler.GetProductByID)
+	app.POST("/products", productHttpHandler.CreateProduct)
 }
