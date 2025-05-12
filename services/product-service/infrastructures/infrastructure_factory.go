@@ -62,6 +62,12 @@ func runWithGracefulShutdown(app *gin.Engine, port string) {
 }
 
 func route(app *gin.Engine, productHttpHandler *handlers.ProductHttpHandler) {
+	// Health check endpoint
+	app.GET("/health", func(c *gin.Context) {
+		c.JSON(http.StatusOK, gin.H{"message": "Product service is running 🐳"})
+	})
+
+	// Product endpoints
 	app.GET("/products", productHttpHandler.GetAllProducts)
 	app.GET("/products/:id", productHttpHandler.GetProductByID)
 }
