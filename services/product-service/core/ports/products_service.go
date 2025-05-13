@@ -19,8 +19,8 @@ type UpdateProductCommand struct {
 }
 
 type ProductsService interface {
-	QueryAllProducts(activeOnly bool) ([]domain.Product, error)
-	QueryProductByID(id int32) (domain.Product, error)
+	QueryAllProducts(activeOnly bool) ([]domain.BottledWater, error)
+	QueryProductByID(id int32) (domain.BottledWater, error)
 	CreateProduct(createProductCommand CreateProductCommand) error
 	UpdateProduct(updateProductCommand UpdateProductCommand) error
 	DeleteProductByID(id int32) error

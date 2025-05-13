@@ -15,7 +15,7 @@ func GetNewGormDBInstance(DBConfig config.DBConfig) *gorm.DB {
 		panic("failed to connect database")
 	}
 
-	err = db.AutoMigrate(&domain.Product{})
+	err = db.AutoMigrate(&domain.BottledWater{})
 	if err != nil {
 		panic("failed to migrate database")
 	}

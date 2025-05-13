@@ -19,7 +19,7 @@ func NewProductsServiceImpl(productsRepository ports.ProductsRepository) *Produc
 	}
 }
 
-func (s *ProductsServiceImpl) QueryAllProducts(activeOnly bool) ([]domain.Product, error) {
+func (s *ProductsServiceImpl) QueryAllProducts(activeOnly bool) ([]domain.BottledWater, error) {
 	products, err := s.productsRepository.GetAllProducts(activeOnly)
 	if err != nil {
 		return nil, errors.New(errors.Internal, "Failed to get all products", err)
@@ -27,10 +27,10 @@ func (s *ProductsServiceImpl) QueryAllProducts(activeOnly bool) ([]domain.Produc
 	return products, nil
 }
 
-func (s *ProductsServiceImpl) QueryProductByID(id int32) (domain.Product, error) {
+func (s *ProductsServiceImpl) QueryProductByID(id int32) (domain.BottledWater, error) {
 	product, err := s.productsRepository.GetProductByID(id)
 	if err != nil {
-		return domain.Product{}, errors.New(errors.NotFound, "Product not found", err)
+		return domain.BottledWater{}, errors.New(errors.NotFound, "Product not found", err)
 	}
 	return product, nil
 }
@@ -41,7 +41,7 @@ func (s *ProductsServiceImpl) CreateProduct(createProductCommand ports.CreatePro
 		return errors.New(errors.Validation, "Invalid create product request", err)
 	}
 
-	product := domain.Product{
+	product := domain.BottledWater{
 		Name:     createProductCommand.Name,
 		Size:     createProductCommand.Size,
 		Price:    createProductCommand.Price,
@@ -66,7 +66,7 @@ func (s *ProductsServiceImpl) UpdateProduct(updateProductCommand ports.UpdatePro
 		return errors.New(errors.NotFound, "Product not found", err)
 	}
 
-	updatedProduct := domain.Product{
+	updatedProduct := domain.BottledWater{
 		ID:        product.ID,
 		Name:      helpers.WithFallback(updateProductCommand.NameOpt, product.Name),
 		Size:      helpers.WithFallback(updateProductCommand.SizeOpt, product.Size),
