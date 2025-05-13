@@ -20,7 +20,7 @@ func (r *ProductsRepositoryImpl) GetAllProducts(activeOnly bool) ([]domain.Produ
 	query := r.gormDB
 
 	if activeOnly {
-		query = query.Where("is_active = ?", true)
+		query = query.Where("is_active = ?", activeOnly)
 	}
 
 	if err := query.Find(&products).Error; err != nil {
@@ -30,7 +30,7 @@ func (r *ProductsRepositoryImpl) GetAllProducts(activeOnly bool) ([]domain.Produ
 	return products, nil
 }
 
-func (r *ProductsRepositoryImpl) GetProductByID(id uint32) (domain.Product, error) {
+func (r *ProductsRepositoryImpl) GetProductByID(id int32) (domain.Product, error) {
 	var product domain.Product
 	if err := r.gormDB.First(&product, id).Error; err != nil {
 		return domain.Product{}, err
@@ -46,6 +46,6 @@ func (r *ProductsRepositoryImpl) UpdateProduct(product domain.Product) error {
 	return r.gormDB.Save(&product).Error
 }
 
-func (r *ProductsRepositoryImpl) DeleteProductByID(id uint32) error {
+func (r *ProductsRepositoryImpl) DeleteProductByID(id int32) error {
 	return r.gormDB.Delete(&domain.Product{}, id).Error
 }

@@ -27,7 +27,7 @@ func (s *ProductsServiceImpl) QueryAllProducts(activeOnly bool) ([]domain.Produc
 	return products, nil
 }
 
-func (s *ProductsServiceImpl) QueryProductByID(id uint32) (domain.Product, error) {
+func (s *ProductsServiceImpl) QueryProductByID(id int32) (domain.Product, error) {
 	product, err := s.productsRepository.GetProductByID(id)
 	if err != nil {
 		return domain.Product{}, errors.New(errors.NotFound, "Product not found", err)
@@ -61,7 +61,7 @@ func (s *ProductsServiceImpl) UpdateProduct(updateProductCommand ports.UpdatePro
 		return errors.New(errors.Validation, "Invalid update product request", err)
 	}
 
-	product, err := s.productsRepository.GetProductByID(uint32(updateProductCommand.ID))
+	product, err := s.productsRepository.GetProductByID(updateProductCommand.ID)
 	if err != nil {
 		return errors.New(errors.NotFound, "Product not found", err)
 	}
@@ -83,7 +83,7 @@ func (s *ProductsServiceImpl) UpdateProduct(updateProductCommand ports.UpdatePro
 	return nil
 }
 
-func (s *ProductsServiceImpl) DeleteProductByID(id uint32) error {
+func (s *ProductsServiceImpl) DeleteProductByID(id int32) error {
 	err := s.productsRepository.DeleteProductByID(id)
 	if err != nil {
 		return errors.New(errors.NotFound, "Product not found", err)
