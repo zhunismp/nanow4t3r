@@ -74,4 +74,5 @@ func route(app *gin.Engine, productHttpHandler *handlers.ProductHttpHandler) {
 	app.GET("/products/:id", productHttpHandler.GetProductByID)
 	app.POST("/products", productHttpHandler.CreateProduct)
 	app.PUT("/products", productHttpHandler.UpdateProduct)
+	app.DELETE("/products/:id", productHttpHandler.DeleteProductByID)
 }
