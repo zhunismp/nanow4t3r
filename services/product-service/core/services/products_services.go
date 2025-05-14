@@ -3,6 +3,7 @@ package services
 import (
 	"time"
 
+	"github.com/zhunismp/nanow4t3r/services/product/adapters/dtos"
 	"github.com/zhunismp/nanow4t3r/services/product/core/domain"
 	"github.com/zhunismp/nanow4t3r/services/product/core/errors"
 	"github.com/zhunismp/nanow4t3r/services/product/core/helpers"
@@ -19,7 +20,7 @@ func NewProductsServiceImpl(productsRepository ports.ProductsRepository) *Produc
 	}
 }
 
-func (s *ProductsServiceImpl) QueryAllProducts(activeOnly bool) ([]domain.Product, error) {
+func (s *ProductsServiceImpl) QueryAllProducts(activeOnly bool) ([]domain.BottledWater, error) {
 	products, err := s.productsRepository.GetAllProducts(activeOnly)
 	if err != nil {
 		return nil, errors.New(errors.Internal, "Failed to get all products", err)
@@ -27,21 +28,21 @@ func (s *ProductsServiceImpl) QueryAllProducts(activeOnly bool) ([]domain.Produc
 	return products, nil
 }
 
-func (s *ProductsServiceImpl) QueryProductByID(id int32) (domain.Product, error) {
+func (s *ProductsServiceImpl) QueryProductByID(id int32) (domain.BottledWater, error) {
 	product, err := s.productsRepository.GetProductByID(id)
 	if err != nil {
-		return domain.Product{}, errors.New(errors.NotFound, "Product not found", err)
+		return domain.BottledWater{}, errors.New(errors.NotFound, "Product not found", err)
 	}
 	return product, nil
 }
 
-func (s *ProductsServiceImpl) CreateProduct(createProductCommand ports.CreateProductCommand) error {
+func (s *ProductsServiceImpl) CreateProduct(createProductCommand dtos.CreateProductRequest) error {
 
 	if err := helpers.ValidateCreateProductCommand(createProductCommand); err != nil {
 		return errors.New(errors.Validation, "Invalid create product request", err)
 	}
 
-	product := domain.Product{
+	product := domain.BottledWater{
 		Name:     createProductCommand.Name,
 		Size:     createProductCommand.Size,
 		Price:    createProductCommand.Price,
@@ -55,7 +56,7 @@ func (s *ProductsServiceImpl) CreateProduct(createProductCommand ports.CreatePro
 	return nil
 }
 
-func (s *ProductsServiceImpl) UpdateProduct(updateProductCommand ports.UpdateProductCommand) error {
+func (s *ProductsServiceImpl) UpdateProduct(updateProductCommand dtos.UpdateProductRequest) error {
 
 	if err := helpers.ValidateUpdateProductCommand(updateProductCommand); err != nil {
 		return errors.New(errors.Validation, "Invalid update product request", err)
@@ -66,7 +67,7 @@ func (s *ProductsServiceImpl) UpdateProduct(updateProductCommand ports.UpdatePro
 		return errors.New(errors.NotFound, "Product not found", err)
 	}
 
-	updatedProduct := domain.Product{
+	updatedProduct := domain.BottledWater{
 		ID:        product.ID,
 		Name:      helpers.WithFallback(updateProductCommand.NameOpt, product.Name),
 		Size:      helpers.WithFallback(updateProductCommand.SizeOpt, product.Size),

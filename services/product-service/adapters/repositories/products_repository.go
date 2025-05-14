@@ -15,8 +15,8 @@ func NewProductsRepositoryImpl(gormDB *gorm.DB) *ProductsRepositoryImpl {
 	}
 }
 
-func (r *ProductsRepositoryImpl) GetAllProducts(activeOnly bool) ([]domain.Product, error) {
-	var products []domain.Product
+func (r *ProductsRepositoryImpl) GetAllProducts(activeOnly bool) ([]domain.BottledWater, error) {
+	var products []domain.BottledWater
 	query := r.gormDB
 
 	if activeOnly {
@@ -30,22 +30,22 @@ func (r *ProductsRepositoryImpl) GetAllProducts(activeOnly bool) ([]domain.Produ
 	return products, nil
 }
 
-func (r *ProductsRepositoryImpl) GetProductByID(id int32) (domain.Product, error) {
-	var product domain.Product
+func (r *ProductsRepositoryImpl) GetProductByID(id int32) (domain.BottledWater, error) {
+	var product domain.BottledWater
 	if err := r.gormDB.First(&product, id).Error; err != nil {
-		return domain.Product{}, err
+		return domain.BottledWater{}, err
 	}
 	return product, nil
 }
 
-func (r *ProductsRepositoryImpl) CreateProduct(product domain.Product) error {
+func (r *ProductsRepositoryImpl) CreateProduct(product domain.BottledWater) error {
 	return r.gormDB.Create(&product).Error
 }
 
-func (r *ProductsRepositoryImpl) UpdateProduct(product domain.Product) error {
+func (r *ProductsRepositoryImpl) UpdateProduct(product domain.BottledWater) error {
 	return r.gormDB.Save(&product).Error
 }
 
 func (r *ProductsRepositoryImpl) DeleteProductByID(id int32) error {
-	return r.gormDB.Delete(&domain.Product{}, id).Error
+	return r.gormDB.Delete(&domain.BottledWater{}, id).Error
 }

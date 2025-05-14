@@ -3,10 +3,10 @@ package helpers
 import (
 	"fmt"
 
-	"github.com/zhunismp/nanow4t3r/services/product/core/ports"
+	"github.com/zhunismp/nanow4t3r/services/product/adapters/dtos"
 )
 
-func ValidateCreateProductCommand(createProductCommand ports.CreateProductCommand) error {
+func ValidateCreateProductCommand(createProductCommand dtos.CreateProductRequest) error {
 	if createProductCommand.Name == "" {
 		return fmt.Errorf("name is required")
 	}
@@ -20,7 +20,7 @@ func ValidateCreateProductCommand(createProductCommand ports.CreateProductComman
 	return nil
 }
 
-func ValidateUpdateProductCommand(updateProductCommand ports.UpdateProductCommand) error {
+func ValidateUpdateProductCommand(updateProductCommand dtos.UpdateProductRequest) error {
 	if updateProductCommand.ID <= 0 {
 		return fmt.Errorf("id must be greater than 0")
 	}

@@ -5,9 +5,9 @@ import (
 )
 
 type ProductsRepository interface {
-	GetAllProducts(activeOnly bool) ([]domain.Product, error)
-	GetProductByID(id int32) (domain.Product, error)
-	CreateProduct(product domain.Product) error
-	UpdateProduct(product domain.Product) error
+	GetAllProducts(activeOnly bool) ([]domain.BottledWater, error)
+	GetProductByID(id int32) (domain.BottledWater, error)
+	CreateProduct(product domain.BottledWater) error
+	UpdateProduct(product domain.BottledWater) error
 	DeleteProductByID(id int32) error
 }
