@@ -1,0 +1,13 @@
+name: "Production CI"
+
+on:
+  push:
+    paths-ignore: [ '*.txt' ] # Ignore version.txt changes
+    branches:
+      - master
+
+jobs:
+  product-service-workflows:
+    uses: ./.github/workflows/product-workflows.yaml
+    name: Product service
+    secrets: inherit

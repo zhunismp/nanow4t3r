@@ -7,4 +7,5 @@ func main() {
 	// Initialize the application
 	// Running with graceful shutdown
 	infrastructures.Start()
+	
 }
