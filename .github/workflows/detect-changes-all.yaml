@@ -5,13 +5,13 @@ on:
     outputs:
       product_service:
         description: "true if product service has changes"
-        value: ${{ jobs.detect-product.outputs.is_changes }}
+        value: ${{ jobs.detect-product-service.outputs.is_changes }}
       order_service:
         description: "true if order service has changes"
-        value: ${{ jobs.detect-order.outputs.is_changes }}
+        value: ${{ jobs.detect-order-service.outputs.is_changes }}
       inventory_service:
         description: "true if inventory service has changes"
-        value: ${{ jobs.detect-inventory.outputs.is_changes }}
+        value: ${{ jobs.detect-inventory-service.outputs.is_changes }}
 
 jobs:
   detect-product-service:
