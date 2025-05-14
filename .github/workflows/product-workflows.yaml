@@ -52,5 +52,7 @@ jobs:
           context: './services/product-service'
           dockerfile_name: 'product.dockerfile'
           version: ${{ needs.extract-version.outputs.version }}
+          docker_token: ${{ secrets.DOCKERHUB_TOKEN }}
+          docker_username: ${{ vars.DOCKERHUB_USERNAME }}
 
   
