@@ -36,6 +36,5 @@ runs:
         with:
           push: true
           context: "${{ inputs.context }}"
-          dockerfile: "./docker/${{ inputs.dockerfile_name }}"
-          file: "./docker"
+          file: "./docker/${{ inputs.dockerfile_name }}"
           tags: "${{ inputs.docker_username }}/${{ inputs.image_name }}:master_0.0.${{ inputs.version }}"
