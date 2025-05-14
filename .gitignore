@@ -21,10 +21,6 @@ coverage.out
 vendor/
 *.local
 
-# Compiled Go files
-**/go.sum
-**/go.work.sum
-
 # Dependency directories (optional if you commit vendor)
 **/vendor/
 
