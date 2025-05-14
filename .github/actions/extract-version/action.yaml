@@ -16,6 +16,9 @@ runs:
       uses: actions/checkout@v4
       with:
         fetch-depth: 0
+    - name: Extract version
+      id: read_version
+      shell: bash
       run: |
         VERSION_FILE="${{ inputs.service_path }}/version.txt"
         VERSION=$(grep "^version=" "$VERSION_FILE" | head -n 1 | cut -d'=' -f2 | xargs)
