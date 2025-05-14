@@ -1,0 +1,26 @@
+name: Extract application version
+description: Extract the version of a service from the versioning file
+inputs:
+  service_path:
+    description: "The path to the service"
+    required: true
+outputs:
+  version:
+    description: "The version of the service"
+    value: ${{ steps.read_version.outputs.version }}
+
+runs:
+  using: "composite"
+  steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+      run: |
+        VERSION_FILE="${{ inputs.service_path }}/version.txt"
+        VERSION=$(grep "^version=" "$VERSION_FILE" | head -n 1 | cut -d'=' -f2 | xargs)
+        if [ -z "$VERSION" ]; then
+          echo "❌ version= key found, but value is empty."
+          exit 1
+        fi
+        echo "version=$VERSION" >> "$GITHUB_OUTPUT"

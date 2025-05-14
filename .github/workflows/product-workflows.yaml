@@ -1,0 +1,49 @@
+
+name: Detect Service Changes
+
+on:
+  workflow_call:
+
+
+jobs:
+  detect-changes:
+    runs-on: ubuntu-latest
+    outputs:
+      is_changes: ${{ steps.detect.outputs.is_changes }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Detect changes
+        id: detect
+        uses: ./.github/actions/detect-changes
+        with:
+          service_path: '**/services/product-service/**'
+  
+  extract-version:
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.read_version.outputs.version }}
+    needs: detect-changes
+    if: ${{ needs.detect-changes.outputs.is_changes == 'true' }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Extract application version
+        id: read_version
+        uses: ./.github/actions/extract-version
+        with:
+          service_path: '**/services/product-service/**'
+
+  debug:
+    runs-on: ubuntu-latest
+    needs: [extract-version]
+    steps:
+      - name: Debug information
+        run: |
+          echo "Product service version: ${{ needs.extract-version.outputs.version }}"
+
+  

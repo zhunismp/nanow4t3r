@@ -8,16 +8,7 @@ on:
       - feat/ci # TODO: remove this branch when the CI is stable
 
 jobs:
-  detect-changes:
-    uses: ./.github/workflows/detect-changes.yaml
-    name: Detect services changes
-  debug:
-    runs-on: ubuntu-latest
-    needs: detect-changes
-    steps:
-      - name: Debug
-        run: |
-          echo "Product service changes: ${{ needs.detect-changes.outputs.product_service }}"
-          echo "Order service changes: ${{ needs.detect-changes.outputs.order_service }}"
-          echo "Inventory service changes: ${{ needs.detect-changes.outputs.inventory_service }}"
+  product-service-workflows:
+    uses: ./.github/workflows/product-workflows.yaml
+    name: Product service
 
