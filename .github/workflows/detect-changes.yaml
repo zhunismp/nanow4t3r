@@ -27,4 +27,4 @@ jobs:
         with:
           filters: |
             change:
-              - ${{ inputs.service_path }}
+              - "${{ inputs.service_path }}"
