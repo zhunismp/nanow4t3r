@@ -3,8 +3,7 @@ name: Detect Service Changes
 
 on:
   workflow_call:
-
-
+  
 jobs:
   detect-changes:
     runs-on: ubuntu-latest

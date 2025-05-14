@@ -11,4 +11,5 @@ jobs:
   product-service-workflows:
     uses: ./.github/workflows/product-workflows.yaml
     name: Product service
+    secrets: inherit
 
