@@ -38,12 +38,19 @@ jobs:
         with:
           service_path: './services/product-service'
 
-  debug:
+  build-and-publish-docker:
     runs-on: ubuntu-latest
-    needs: [extract-version]
+    needs: [detect-changes, extract-version]
     steps:
-      - name: Debug information
-        run: |
-          echo "Product service version: ${{ needs.extract-version.outputs.version }}"
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Build and publish Docker image
+        uses: ./.github/actions/build-and-publish-docker
+        with:
+          context: './services/product-service'
+          dockerfile_name: 'product.dockerfile'
+          version: ${{ needs.extract-version.outputs.version }}
 
   
