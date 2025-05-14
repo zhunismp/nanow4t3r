@@ -1,0 +1,30 @@
+name: Detect Changes
+
+on:
+  workflow_call:
+    inputs:
+      service_path:
+        description: "Path to the service directory"
+        required: true
+        type: string
+    outputs:
+      is_changes:
+        description: "true if service has changes"
+        value: ${{ jobs.detect.outputs.is_changes }}
+
+jobs:
+  detect:
+    runs-on: ubuntu-latest
+    outputs:
+      is_changes: ${{ steps.changes.outputs.change }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: dorny/paths-filter@v3
+        id: changes
+        with:
+          filters: |
+            change:
+              - ${{ inputs.service_path }}/**

@@ -1,0 +1,30 @@
+name: extract-version
+
+on:
+  workflow_call:
+    inputs:
+      service_path:
+        description: "The path to the service"
+        required: true
+        type: string
+
+jobs:
+  extract-version:
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.read_version.outputs.version }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: extract application version
+        id: read_version
+        run: |
+          VERSION_FILE="${{ inputs.service_path }}/version.txt"
+          VERSION=$(grep "^version=" "$VERSION_FILE" | head -n 1 | cut -d'=' -f2 | xargs)
+          if [ -z "$VERSION" ]; then
+            echo "❌ version= key found, but value is empty."
+            exit 1
+          fi
+            echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+  

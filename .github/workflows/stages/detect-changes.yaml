@@ -1,0 +1,31 @@
+name: Detect Service Changes
+
+on:
+  workflow_call:
+    outputs:
+      product_service:
+        description: "true if product service has changes"
+        type: boolean
+        value: ${{ jobs.detect-product.outputs.is_changes }}
+      order_service:
+        description: "true if order service has changes"
+        type: boolean
+        value: ${{ jobs.detect-order.outputs.is_changes }}
+      inventory_service:
+        description: "true if inventory service has changes"
+        type: boolean
+        value: ${{ jobs.detect-inventory.outputs.is_changes }}
+
+jobs:
+  detect-product-service:
+    uses: ./.github/workflows/bases/detect-changes.yaml
+    with:
+      service_path: "**/services/product-service/**"
+  detect-order-service:
+    uses: ./.github/workflows/bases/detect-changes.yaml
+    with:
+      service_path: "**/services/order-service/**"
+  detect-inventory-service:
+    uses: ./.github/workflows/bases/detect-changes.yaml
+    with:
+      service_path: "**/services/inventory-service/**"
