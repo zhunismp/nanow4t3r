@@ -18,13 +18,13 @@ jobs:
     outputs:
       is_changes: ${{ steps.changes.outputs.change }}
     steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
+      # - uses: actions/checkout@v4
+      #   with:
+      #     fetch-depth: 0
 
       - uses: dorny/paths-filter@v3
         id: changes
         with:
           filters: |
             change:
-              - ${{ inputs.service_path }}/**
+              - ${{ inputs.service_path }}
