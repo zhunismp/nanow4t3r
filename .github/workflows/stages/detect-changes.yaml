@@ -18,14 +18,26 @@ on:
 
 jobs:
   detect-product-service:
-    uses: ./.github/workflows/bases/detect-changes.yaml
-    with:
-      service_path: "**/services/product-service/**"
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: ./.github/workflows/bases/detect-changes.yaml
+        with:
+          service_path: "**/services/product-service/**"
   detect-order-service:
-    uses: ./.github/workflows/bases/detect-changes.yaml
-    with:
-      service_path: "**/services/order-service/**"
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: ./.github/workflows/bases/detect-changes.yaml
+        with:
+          service_path: "**/services/order-service/**"
   detect-inventory-service:
-    uses: ./.github/workflows/bases/detect-changes.yaml
-    with:
-      service_path: "**/services/inventory-service/**"
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: ./.github/workflows/bases/detect-changes.yaml
+        with:
+          service_path: "**/services/inventory-service/**"
