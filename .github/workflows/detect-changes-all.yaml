@@ -15,14 +15,17 @@ on:
 
 jobs:
   detect-product-service:
+    name: Detect product service changes
     uses: ./.github/workflows/detect-changes.yaml
     with:
       service_path: "**/services/product-service/**"
   detect-order-service:
+    name: Detect order service changes
     uses: ./.github/workflows/detect-changes.yaml
     with:
       service_path: "**/services/order-service/**"
   detect-inventory-service:
+    name: Detect inventory service changes
     uses: ./.github/workflows/detect-changes.yaml
     with:
       service_path: "**/services/inventory-service/**"
