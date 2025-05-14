@@ -1,0 +1,25 @@
+name: Detect source code changes
+description: Detect changes in the source code of a service
+inputs:
+  service_path:
+    description: "Path to the service directory"
+    required: true
+outputs:
+      is_changes:
+        description: "true if service has changes"
+        value: ${{ steps.detected.outputs.change }}
+
+runs:
+  using: "composite"
+  steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    - name: Detect changes
+      id: detected
+      uses: dorny/paths-filter@v3
+      with:
+        filters: |
+          change:
+            - "${{ inputs.service_path }}"
