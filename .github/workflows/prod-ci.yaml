@@ -9,7 +9,7 @@ on:
 
 jobs:
   detect-changes:
-    uses: ./.github/workflows/detect-changes-all.yaml
+    uses: ./.github/workflows/detect-changes.yaml
     name: Detect services changes
   debug:
     runs-on: ubuntu-latest
