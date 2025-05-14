@@ -2,7 +2,7 @@ name: Extract application version
 description: Extract the version of a service from the versioning file
 inputs:
   service_path:
-    description: "The path to the service"
+    description: "The relative path start from root to the service"
     required: true
 outputs:
   version:

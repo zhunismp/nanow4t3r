@@ -36,7 +36,7 @@ jobs:
         id: read_version
         uses: ./.github/actions/extract-version
         with:
-          service_path: '**/services/product-service'
+          service_path: './services/product-service'
 
   debug:
     runs-on: ubuntu-latest
