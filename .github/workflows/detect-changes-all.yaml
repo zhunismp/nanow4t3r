@@ -1,3 +1,5 @@
+# .github/workflows/detect-changes-all.yaml
+
 name: Detect Service Changes
 
 on:
@@ -15,14 +17,34 @@ on:
 
 jobs:
   detect-product-service:
-    uses: ./.github/actions/detect-changes.yaml
-    with:
-      service_path: "**/services/product-service/**"
+    runs-on: ubuntu-latest
+    outputs:
+      is_changes: ${{ steps.detect.outputs.is_changes }}
+    steps:
+      - name: Detect product service changes
+        id: detect
+        uses: ./.github/actions/detect-changes
+        with:
+          service_path: '**/services/product-service/**'
+
   detect-order-service:
-    uses: ./.github/actions/detect-changes.yaml
-    with:
-      service_path: "**/services/order-service/**"
+    runs-on: ubuntu-latest
+    outputs:
+      is_changes: ${{ steps.detect.outputs.is_changes }}
+    steps:
+      - name: Detect order service changes
+        id: detect
+        uses: ./.github/actions/detect-changes
+        with:
+          service_path: '**/services/order-service/**'
+
   detect-inventory-service:
-    uses: ./.github/actions/detect-changes.yaml
-    with:
-      service_path: "**/services/inventory-service/**"
+    runs-on: ubuntu-latest
+    outputs:
+      is_changes: ${{ steps.detect.outputs.is_changes }}
+    steps:
+      - name: Detect inventory service changes
+        id: detect
+        uses: ./.github/actions/detect-changes
+        with:
+          service_path: '**/services/inventory-service/**'
