@@ -4,6 +4,7 @@ import (
 	"strconv"
 
 	"github.com/gin-gonic/gin"
+	"github.com/zhunismp/nanow4t3r/services/product/adapters/dtos"
 	"github.com/zhunismp/nanow4t3r/services/product/core/errors"
 	"github.com/zhunismp/nanow4t3r/services/product/core/ports"
 )
@@ -50,7 +51,7 @@ func (s *ProductHttpHandler) GetProductByID(c *gin.Context) {
 }
 
 func (s *ProductHttpHandler) CreateProduct(c *gin.Context) {
-	var createProductCommand ports.CreateProductCommand
+	var createProductCommand dtos.CreateProductRequest
 	if err := c.ShouldBindJSON(&createProductCommand); err != nil {
 		c.Error(err).SetType(gin.ErrorTypeBind)
 		return
@@ -65,7 +66,7 @@ func (s *ProductHttpHandler) CreateProduct(c *gin.Context) {
 }
 
 func (s *ProductHttpHandler) UpdateProduct(c *gin.Context) {
-	var updateProductCommand ports.UpdateProductCommand
+	var updateProductCommand dtos.UpdateProductRequest
 	if err := c.ShouldBindJSON(&updateProductCommand); err != nil {
 		c.Error(err).SetType(gin.ErrorTypeBind)
 		return
