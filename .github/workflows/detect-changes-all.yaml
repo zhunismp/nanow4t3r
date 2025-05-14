@@ -18,14 +18,14 @@ on:
 
 jobs:
   detect-product-service:
-    uses: ./.github/workflows/bases/detect-changes.yaml
+    uses: ./.github/workflows/detect-changes.yaml
     with:
       service_path: "**/services/product-service/**"
   detect-order-service:
-    uses: ./.github/workflows/bases/detect-changes.yaml
+    uses: ./.github/workflows/detect-changes.yaml
     with:
       service_path: "**/services/order-service/**"
   detect-inventory-service:
-    uses: ./.github/workflows/bases/detect-changes.yaml
+    uses: ./.github/workflows/detect-changes.yaml
     with:
       service_path: "**/services/inventory-service/**"
