@@ -3,7 +3,7 @@ name: Detect Service Changes
 
 on:
   workflow_call:
-  
+
 jobs:
   detect-changes:
     runs-on: ubuntu-latest
@@ -52,6 +52,7 @@ jobs:
           dockerfile_name: 'product.dockerfile'
           version: ${{ needs.extract-version.outputs.version }}
           docker_token: ${{ secrets.DOCKERHUB_TOKEN }}
-          docker_username: ${{ vars.DOCKERHUB_USERNAME }}
+          docker_username: ${{ secrets.DOCKERHUB_USERNAME }} # TODO: remove this secret when the CI is stable
+          image_name: 'product-service'
 
   
