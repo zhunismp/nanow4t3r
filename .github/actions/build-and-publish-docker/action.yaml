@@ -37,4 +37,4 @@ runs:
           push: true
           context: "${{ inputs.context }}"
           file: "./docker/${{ inputs.dockerfile_name }}"
-          tags: "${{ inputs.docker_username }}/${{ inputs.image_name }}:{{ inputs.tag }}"
+          tags: "${{ inputs.docker_username }}/${{ inputs.image_name }}:${{ inputs.tag }}"
