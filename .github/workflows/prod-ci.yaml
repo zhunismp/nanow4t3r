@@ -2,9 +2,13 @@ name: "Production CI"
 
 on:
   push:
-    paths-ignore: [ '*.txt' ] # Ignore version.txt changes
+    paths-ignore: [ '**/services/**/version.txt' ] # Ignore version.txt changes
     branches:
       - master
+
+permissions:
+  contents: write
+  pull-requests: write
 
 jobs:
   product-service-workflows:

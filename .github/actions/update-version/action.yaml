@@ -1,0 +1,42 @@
+name: Update version tag
+description: Update the version tag in the versioning file
+
+inputs:
+  service_path:
+    description: "The relative path start from root to the service"
+    required: true
+  current_version:
+    description: "The current version"
+    required: true
+  github_token:
+    description: "GitHub token to push changes"
+    required: true
+  ref:
+    description: "The branch to push changes to"
+    required: false
+
+runs:
+  using: "composite"
+  steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    - name: Config git
+      shell: bash
+      run: |
+        git config --global user.name "opsbot"
+        git config --global user.email "opsbot@zhunismp.link"
+    - name: Increment version
+      id: increment_version
+      shell: bash
+      run: |
+        new_version=$(( ${{ inputs.current_version }} + 1 ))
+        sed -i -E "s/^version=.*/version=$new_version/" "${{ inputs.service_path }}/version.txt"
+        git add ${{ inputs.service_path }}/version.txt
+        git commit -m "chore: update version"
+    - name: Push changes
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ inputs.github_token }}
+        branch: ${{ inputs.ref }}
