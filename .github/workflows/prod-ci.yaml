@@ -2,7 +2,9 @@ name: "Production CI"
 
 on:
   push:
-    paths-ignore: [ '**/services/**/version.txt' ] # Ignore version.txt changes
+    branches:
+      - master
+  pull_request:
     branches:
       - master
 
