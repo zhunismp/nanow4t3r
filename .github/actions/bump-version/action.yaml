@@ -21,5 +21,5 @@ runs:
       uses: mathieudutour/github-tag-action@v6.2
       with:
         github_token: ${{ inputs.github_token }}
-        default_bump: "minor"
+        default_bump: minor
       
