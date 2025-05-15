@@ -28,7 +28,8 @@ runs:
       id: increment_version
       shell: bash
       run: |
-        sed -i -E "s/version=.$*/version=$((${{ inputs.current_version }}+1))" ${{ inputs.service_path }}/version.txt
+        new_version=$(( ${{ inputs.current_version }} + 1 ))
+        sed -i -E "s/^version=.*/version=$new_version/" "${{ inputs.service_path }}/version.txt"
         git add ${{ inputs.service_path }}/version.txt
         git commit -m "chore: update version"
     - name: Push changes
