@@ -11,6 +11,9 @@ inputs:
   github_token:
     description: "GitHub token to push changes"
     required: true
+  ref:
+    description: "The branch to push changes to"
+    required: false
 
 runs:
   using: "composite"
@@ -36,4 +39,4 @@ runs:
       uses: ad-m/github-push-action@master
       with:
         github_token: ${{ inputs.github_token }}
-        branch: master
+        branch: ${{ inputs.ref }}
