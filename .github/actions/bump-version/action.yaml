@@ -1,0 +1,25 @@
+name: Bump version tags
+description: "Bumping version tags from git tags"
+inputs:
+  github_token:
+    description: "GitHub token to push changes"
+    required: true
+outputs:
+  version:
+    description: "The version of the service"
+    value: ${{ steps.tag_version.outputs.new_tag }}
+
+runs:
+  using: "composite"
+  steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    - name: Bump and extract tags
+      id: tag_version
+      uses: mathieudutour/github-tag-action@v6.2
+      with:
+        github_token: ${{ inputs.github_token }}
+        default_bump: minor
+      
