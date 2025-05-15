@@ -8,8 +8,8 @@ inputs:
   dockerfile_name:
     description: "Name of the Dockerfile"
     required: true
-  version:
-    description: "Version of the Docker image"
+  tag:
+    description: "tag of the Docker image"
     required: true
   docker_token:
     description: "Docker Hub token"
@@ -37,4 +37,4 @@ runs:
           push: true
           context: "${{ inputs.context }}"
           file: "./docker/${{ inputs.dockerfile_name }}"
-          tags: "${{ inputs.docker_username }}/${{ inputs.image_name }}:master_0.0.${{ inputs.version }}"
+          tags: "${{ inputs.docker_username }}/${{ inputs.image_name }}:${{ inputs.tag }}"
